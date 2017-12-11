@@ -12,5 +12,8 @@ namespace Vidly.Models
         public int SignupFee { get; set; }
         public int DurationInMonths { get; set; }
         public int DiscountRate { get; set; }
+
+        public static readonly int Unknown = 0;
+        public static readonly byte PayAsYouGo = 1;
     }
 }

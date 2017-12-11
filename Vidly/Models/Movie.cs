@@ -8,15 +8,21 @@ namespace Vidly.Models
 {
     public class Movie
     {
+        public Movie()
+        {
+            DateAdded = DateTime.Today;
+        }
         public int Id { get; set; }
         [Required]
         [StringLength(255)]
         public String Name { get; set; }
-        
+
         public Genre Genre { get; set; }
         [Required]
+        [Display(Name="Genre")]
         public int GenreId { get; set; }
 
+       
         [Display(Name = "Release Date")]
         public DateTime ReleaseDate { get; set; }
 
@@ -24,6 +30,7 @@ namespace Vidly.Models
         public DateTime DateAdded { get; set; }
 
         [Display(Name = "Number In Stock")]
+        [Range(1, 20)]
         public int NumberInStock { get; set; }
     }
 }
