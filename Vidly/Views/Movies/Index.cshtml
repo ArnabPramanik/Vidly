@@ -5,7 +5,15 @@
 }
 
 <h2>Movies</h2>
-
+<p>
+    @Html.ActionLink("New Movie", "New", "Movies", new { @class = "btn btn-danger" })
+</p>
+@if (!Model.Any())
+{
+    <p>No Movies</p>
+}
+else
+{
 <table class="table table-bordered table-hover">
     <thead>
         <tr>
@@ -19,7 +27,10 @@
         <tr>
             <td>@Html.ActionLink(movie.Name, "Details", "Movies", new { id = movie.Id }, null)</td>
             <td>@movie.Genre.Name</td>
+            <td>@Html.ActionLink("Edit", "Edit", "Movies", new { id = movie.Id }, new { @class = "btn btn-danger" })</td>
+            <td>@Html.ActionLink("Delete", "Delete", "Movies", new { id = movie.Id }, new { @class = "btn btn-danger" })</td>
         </tr>
         }
     </tbody>
 </table>
+}

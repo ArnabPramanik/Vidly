@@ -14,6 +14,8 @@ namespace Vidly.Models
         public String Name { get; set; }
         public bool IsSubscribedToNewsLetter { get; set; }
         public MembershipType MembershipType { get; set; }
+
+        [Display(Name = "Membership Type")]
         public int MembershipTypeId { get; set; }
         public DateTime? Birthdate { get; set; }
 

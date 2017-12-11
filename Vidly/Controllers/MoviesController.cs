@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using Vidly.DBlayer;
 using Vidly.Models;
 using System.Data.Entity;
-
+using Vidly.ViewModel;
 
 namespace Vidly.Controllers
 {
@@ -21,6 +21,67 @@ namespace Vidly.Controllers
         {
             _context.Dispose();
         }
+
+        public ViewResult New()
+        {
+            MovieFormViewModel movieFormViewModel = new MovieFormViewModel()
+            {
+                Genres = _context.Genres.ToList()
+            };
+
+            return View("MovieForm", movieFormViewModel);
+        }
+
+        public ActionResult Edit(int id)
+        {
+            var movieInDb = _context.Movies.SingleOrDefault(m => m.Id == id);
+            if(movieInDb == null)
+            {
+                return HttpNotFound();
+            }
+            MovieFormViewModel movieFormViewModel = new MovieFormViewModel()
+            {
+                Genres = _context.Genres.ToList(),
+                Movie = movieInDb
+
+            };
+    
+
+            return View("MovieForm", movieFormViewModel);
+
+        }
+
+        public ActionResult Delete(int id)
+        {
+            var movieInDb = _context.Movies.SingleOrDefault(m=>m.Id == id);
+            if(movieInDb == null)
+            {
+                return HttpNotFound();
+            }
+            _context.Movies.Remove(movieInDb);
+            _context.SaveChanges();
+            return RedirectToAction("Index","Movies");
+        }
+        public ActionResult Save(Movie movie)
+        {
+            if(movie.Id == 0)
+            {
+                _context.Movies.Add(movie);
+            }
+            else
+            {
+                var movieInDb = _context.Movies.Single(m=>movie.Id == m.Id);
+                movieInDb.Name = movie.Name;
+                movieInDb.ReleaseDate = movie.ReleaseDate;
+                movieInDb.DateAdded = movie.DateAdded;
+                movieInDb.NumberInStock = movie.NumberInStock;
+                movieInDb.GenreId = movie.GenreId;
+            }
+            _context.SaveChanges();
+            return RedirectToAction("Index", "Movies");
+        }
+
+        
         // GET: Movies
         public ViewResult Index()
         {
